@@ -21,19 +21,13 @@ const World = {
         );
 
         const material = new THREE.MeshPhongMaterial({
-
             map: earthTexture,
-
-            shininess:8
-
+            shininess: 8
         });
 
         this.planet = new THREE.Mesh(
-
             geometry,
-
             material
-
         );
 
         scene.add(this.planet);
@@ -42,7 +36,9 @@ const World = {
 
     update(){
 
-        this.planet.rotation.y += 0.0008;
+        if (this.planet) {
+            this.planet.rotation.y += 0.0008;
+        }
 
     }
 
