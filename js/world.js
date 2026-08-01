@@ -8,6 +8,8 @@ const World = {
 
         Stars.init(scene);
 
+        Sun.init(scene);
+
     },
 
     update() {
@@ -15,6 +17,8 @@ const World = {
         Earth.update();
 
         Atmosphere.update();
+
+        Sun.update();
 
     }
 
