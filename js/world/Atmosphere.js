@@ -26,12 +26,10 @@ const Atmosphere = {
 
     update() {
 
-        if (this.mesh && Earth.mesh) {
+        if (!this.mesh || !Earth.mesh) return;
 
-            this.mesh.rotation.y = Earth.mesh.rotation.y;
+        this.mesh.rotation.y = Earth.mesh.rotation.y;
 
         }
 
-    }
-
-};
+    };

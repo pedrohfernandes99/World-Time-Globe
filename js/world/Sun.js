@@ -30,9 +30,18 @@ const Sun = {
 
     update() {
 
-        // Nesta Sprint o Sol ficará parado.
-        // Na próxima ele começará a se mover.
 
-    }
+            if (!this.mesh || !this.light) return;
+        
+            const tempo = Date.now() * 0.00005;
+        
+            const raio = 8;
+        
+            this.mesh.position.x = Math.cos(tempo) * raio;
+            this.mesh.position.z = Math.sin(tempo) * raio;
+        
+            this.light.position.copy(this.mesh.position);
+        
+        }
 
-};
+    };

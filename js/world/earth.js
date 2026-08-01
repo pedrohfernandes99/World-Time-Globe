@@ -30,12 +30,10 @@ const Earth = {
 
     update() {
 
-        if (this.mesh) {
-
-            this.mesh.rotation.y += 0.0008;
-
-        }
-
+        if (!this.mesh) return;
+    
+        this.mesh.rotation.y += 0.001;
+    
     }
 
-};
+    };
