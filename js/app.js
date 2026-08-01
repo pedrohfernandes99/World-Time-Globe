@@ -1,19 +1,23 @@
-Engine.init();
+async function start() {
 
-World.init(Engine.scene);
+    Engine.init();
 
+    await CountryLoader.load();
+
+    World.init(Engine.scene);
+
+    animate();
+
+}
 
 function animate() {
 
     requestAnimationFrame(animate);
 
-
     World.update();
-
 
     Engine.render();
 
 }
 
-
-animate();
+start();
