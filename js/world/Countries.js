@@ -2,6 +2,8 @@ const Countries = {
 
     group: null,
 
+    countries: [],
+
     radius: 1.008,
 
     latLngToVector3(lat, lng, radius) {
@@ -35,78 +37,104 @@ const Countries = {
         const geometry = new THREE.BufferGeometry().setFromPoints(points);
 
         const material = new THREE.LineBasicMaterial({
-
             color: 0x00ff99
-
         });
 
-        const line = new THREE.Line(geometry, material);
-
-        this.group.add(line);
+        return new THREE.Line(geometry, material);
 
     },
 
     init(scene) {
 
         this.group = new THREE.Group();
-    
+
+        // Adiciona as fronteiras à Terra para que girem junto
         Earth.mesh.add(this.group);
-    
+
         this.createCountries();
-    
+
     },
 
     createCountries() {
 
         if (!CountryLoader.data) {
-    
+
             console.error("GeoJSON não carregado.");
-    
+
             return;
-    
+
         }
-    
+
+        this.countries = [];
+
         CountryLoader.data.features.forEach(country => {
-    
+
             const geometry = country.geometry;
-    
+
+            const countryObject = {
+
+                properties: country.properties,
+
+                geometry: geometry,
+
+                lines: []
+
+            };
+
             switch (geometry.type) {
-    
+
                 case "Polygon":
-    
+
                     geometry.coordinates.forEach(ring => {
-    
-                        this.drawLine(ring);
-    
+
+                        const line = this.drawLine(ring);
+
+                        this.group.add(line);
+
+                        countryObject.lines.push(line);
+
                     });
-    
+
                     break;
-    
+
                 case "MultiPolygon":
-    
+
                     geometry.coordinates.forEach(polygon => {
-    
+
                         polygon.forEach(ring => {
-    
-                            this.drawLine(ring);
-    
+
+                            const line = this.drawLine(ring);
+
+                            this.group.add(line);
+
+                            countryObject.lines.push(line);
+
                         });
-    
+
                     });
-    
+
                     break;
-    
+
                 default:
-    
+
                     console.warn(
                         "Tipo não suportado:",
                         geometry.type
                     );
-    
+
+                    break;
+
             }
-    
+
+            this.countries.push(countryObject);
+
         });
-    
+
+        console.log(
+            "Países processados:",
+            this.countries.length
+        );
+
     },
 
     update() {
