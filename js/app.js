@@ -2,6 +2,8 @@ async function start() {
 
     Engine.init();
 
+    Input.init();
+
     await CountryLoader.load();
 
     World.init(Engine.scene);

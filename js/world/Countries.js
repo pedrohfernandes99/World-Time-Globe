@@ -2,7 +2,7 @@ const Countries = {
 
     group: null,
 
-    radius: 1.002,
+    radius: 1.008,
 
     latLngToVector3(lat, lng, radius) {
 
@@ -49,11 +49,11 @@ const Countries = {
     init(scene) {
 
         this.group = new THREE.Group();
-
-        scene.add(this.group);
-
+    
+        Earth.mesh.add(this.group);
+    
         this.createCountries();
-
+    
     },
 
     createCountries() {
