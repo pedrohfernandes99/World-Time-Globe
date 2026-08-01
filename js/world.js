@@ -6,6 +6,8 @@ const World = {
 
         Atmosphere.init(scene);
 
+        Clouds.init(scene);
+
         Stars.init(scene);
 
         Sun.init(scene);
@@ -17,6 +19,8 @@ const World = {
         Earth.update();
 
         Atmosphere.update();
+
+        Clouds.update();
 
         Sun.update();
 
