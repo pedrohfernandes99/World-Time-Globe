@@ -6,6 +6,8 @@ const Countries = {
 
     countries: [],
 
+    hoveredCountry: null,
+
     borderColor: 0x00ff99,
 
     selectedColor: 0xffff00,
@@ -273,10 +275,12 @@ const Countries = {
     
     
         const material = new THREE.MeshBasicMaterial({
+
+            color: 0xff0000,
     
             transparent: true,
     
-            opacity: 0,
+            opacity: 0.2,
     
             side: THREE.DoubleSide
     
@@ -296,6 +300,39 @@ const Countries = {
     
     },
 
+    handleHover(country) {
+
+        if (this.hoveredCountry === country) {
+    
+            return;
+    
+        }
+    
+    
+        if (this.hoveredCountry) {
+    
+            this.setCountryColor(
+                this.hoveredCountry,
+                this.borderColor
+            );
+    
+        }
+    
+    
+        this.hoveredCountry = country;
+    
+    
+        if (country) {
+    
+            this.setCountryColor(
+                country,
+                this.selectedColor
+            );
+    
+        }
+    
+    },
+
     update() {
 
         if (!this.hitboxes) return;
@@ -305,7 +342,8 @@ const Countries = {
             this.hitboxes.children
         );
     
-    if (intersects.length > 0) {
+    
+        if (intersects.length > 0) {
     
             const object = intersects[0].object;
     
@@ -315,17 +353,15 @@ const Countries = {
             );
     
     
-            if (country) {
+            this.handleHover(country);
     
-                console.log(
-                    "Mouse sobre:",
-                    country.properties
-                    );
-
-                }
     
-            }
+        } else {
+    
+            this.handleHover(null);
     
         }
-    
-    };
+
+    }
+
+};
