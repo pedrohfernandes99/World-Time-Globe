@@ -12,6 +12,8 @@ const World = {
 
         Sun.init(scene);
 
+        Countries.init(scene);
+
     },
 
     update() {
@@ -23,6 +25,8 @@ const World = {
         Clouds.update();
 
         Sun.update();
+
+        Countries.update();
 
     }
 
