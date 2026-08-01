@@ -9,10 +9,18 @@ const Input = {
         window.addEventListener("mousemove", (event) => {
 
             this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-
             this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
         });
+
+    },
+
+    update() {
+
+        this.raycaster.setFromCamera(
+            this.mouse,
+            Engine.camera
+        );
 
     }
 

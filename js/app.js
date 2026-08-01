@@ -16,6 +16,8 @@ function animate() {
 
     requestAnimationFrame(animate);
 
+    Input.update();
+
     World.update();
 
     Engine.render();

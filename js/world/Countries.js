@@ -2,7 +2,13 @@ const Countries = {
 
     group: null,
 
+    hitboxes: new THREE.Group(),
+
     countries: [],
+
+    borderColor: 0x00ff99,
+
+    selectedColor: 0xffff00,
 
     radius: 1.008,
 
@@ -37,7 +43,7 @@ const Countries = {
         const geometry = new THREE.BufferGeometry().setFromPoints(points);
 
         const material = new THREE.LineBasicMaterial({
-            color: 0x00ff99
+            color: this.borderColor
         });
 
         return new THREE.Line(geometry, material);
@@ -50,6 +56,8 @@ const Countries = {
 
         // Adiciona as fronteiras à Terra para que girem junto
         Earth.mesh.add(this.group);
+
+        Earth.mesh.add(this.hitboxes);
 
         this.createCountries();
 
@@ -74,11 +82,13 @@ const Countries = {
             const countryObject = {
 
                 properties: country.properties,
-
+            
                 geometry: geometry,
-
-                lines: []
-
+            
+                lines: [],
+            
+                selected: false
+            
             };
 
             switch (geometry.type) {
@@ -126,6 +136,8 @@ const Countries = {
 
             }
 
+            this.createHitbox(countryObject);
+
             this.countries.push(countryObject);
 
         });
@@ -137,8 +149,59 @@ const Countries = {
 
     },
 
+    setCountryColor(country, color) {
+
+        country.lines.forEach(line => {
+    
+            line.material.color.setHex(color);
+    
+        });
+    
+    },
+
+    clearSelection() {
+
+        this.countries.forEach(country => {
+    
+            country.selected = false;
+    
+            this.setCountryColor(country, this.borderColor);
+    
+        });
+    
+    },
+
+    selectCountry(country) {
+
+        this.clearSelection();
+    
+        country.selected = true;
+    
+        this.setCountryColor(country, this.selectedColor);
+    
+        console.log("Selecionado:", country.properties.name);
+    
+    },
+
+    createHitbox(countryObject) {
+
+        // Ainda não criaremos a geometria.
+        // Nesta Sprint apenas armazenamos a referência.
+    
+        countryObject.hitbox = null;
+    
+    },
+
     update() {
 
+        if (!Earth.mesh) return;
+    
+        const intersects = Input.raycaster.intersectObject(Earth.mesh);
+    
+        if (intersects.length > 0) {
+    
+            console.log("Mouse sobre a Terra");
+    
+        }
     }
-
-};
+    };

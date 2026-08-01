@@ -19,15 +19,11 @@ const World = {
     update() {
 
         Earth.update();
-
+    
         Atmosphere.update();
-
-        Clouds.update();
-
-        Sun.update();
-
+    
         Countries.update();
-
+    
     }
 
 };
