@@ -87,7 +87,9 @@ const Countries = {
             
                 lines: [],
             
-                selected: false
+                selected: false,
+            
+                hitbox: null
             
             };
 
@@ -183,25 +185,147 @@ const Countries = {
     
     },
 
+    createShape(coordinates) {
+
+        const shape = new THREE.Shape();
+    
+    
+        coordinates.forEach((coord, index) => {
+    
+            const lng = coord[0];
+    
+            const lat = coord[1];
+    
+    
+            const point = this.latLngToVector3(
+                lat,
+                lng,
+                this.radius
+            );
+    
+    
+            if (index === 0) {
+    
+                shape.moveTo(
+                    point.x,
+                    point.y
+                );
+    
+            } else {
+    
+                shape.lineTo(
+                    point.x,
+                    point.y
+                );
+    
+            }
+    
+        });
+    
+    
+        return shape;
+    
+    },
+
     createHitbox(countryObject) {
 
-        // Ainda não criaremos a geometria.
-        // Nesta Sprint apenas armazenamos a referência.
+        const shapes = [];
     
-        countryObject.hitbox = null;
+        const geometry = countryObject.geometry;
+    
+    
+        if (geometry.type === "Polygon") {
+    
+            geometry.coordinates.forEach(ring => {
+    
+                const shape = this.createShape(ring);
+    
+                shapes.push(shape);
+    
+            });
+    
+        }
+    
+    
+        if (geometry.type === "MultiPolygon") {
+    
+            geometry.coordinates.forEach(polygon => {
+    
+                polygon.forEach(ring => {
+    
+                    const shape = this.createShape(ring);
+    
+                    shapes.push(shape);
+    
+                });
+    
+            });
+    
+        }
+    
+    
+        if (shapes.length === 0) return;
+    
+    
+        const geometry3D = new THREE.ShapeGeometry(
+            shapes
+        );
+    
+    
+        const material = new THREE.MeshBasicMaterial({
+    
+            transparent: true,
+    
+            opacity: 0,
+    
+            side: THREE.DoubleSide
+    
+        });
+    
+    
+        const mesh = new THREE.Mesh(
+            geometry3D,
+            material
+        );
+    
+    
+        this.hitboxes.add(mesh);
+    
+    
+        countryObject.hitbox = mesh;
     
     },
 
     update() {
 
-        if (!Earth.mesh) return;
+        if (!this.hitboxes) return;
     
-        const intersects = Input.raycaster.intersectObject(Earth.mesh);
     
-        if (intersects.length > 0) {
+        const intersects = Input.raycaster.intersectObjects(
+            this.hitboxes.children
+        );
     
-            console.log("Mouse sobre a Terra");
+    if (intersects.length > 0) {
+    
+            const object = intersects[0].object;
+    
+    
+            const country = this.countries.find(
+                c => c.hitbox === object
+            );
+    
+    
+            if (country) {
+    
+                console.log(
+                    "Mouse sobre:",
+                    country.properties
+                    );
+
+                }
+    
+            }
     
         }
-    }
+    
     };
