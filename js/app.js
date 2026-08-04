@@ -2,6 +2,8 @@ async function start() {
 
     Engine.init();
 
+    CountryInfo.init();
+
     Input.init();
 
     await CountryLoader.load();

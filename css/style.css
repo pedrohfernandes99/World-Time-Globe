@@ -35,3 +35,38 @@
     letter-spacing:2px;
     
     }
+
+    #country-info {
+
+        position: fixed;
+    
+        top: 80px;
+    
+        right: 30px;
+    
+        width: 260px;
+    
+        padding: 20px;
+    
+        background: rgba(0,0,0,0.7);
+    
+        color: white;
+    
+        border: 1px solid #00ff99;
+    
+        border-radius: 10px;
+    
+        font-family: Arial, sans-serif;
+    
+        backdrop-filter: blur(10px);
+    
+    }
+    
+    
+    #country-info h2 {
+    
+        margin-top: 0;
+    
+        color: #00ff99;
+    
+    }

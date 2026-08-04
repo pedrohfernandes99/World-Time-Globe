@@ -91,7 +91,9 @@ const Countries = {
             
                 selected: false,
             
-                hitbox: null
+                hitbox: null,
+            
+                bounds: null
             
             };
 
@@ -141,6 +143,8 @@ const Countries = {
             }
 
             this.createHitbox(countryObject);
+
+            this.calculateBounds(countryObject);
 
             this.countries.push(countryObject);
 
@@ -320,6 +324,8 @@ const Countries = {
     
     
         this.hoveredCountry = country;
+
+        CountryInfo.show(country);
     
     
         if (country) {
@@ -333,35 +339,108 @@ const Countries = {
     
     },
 
-    update() {
+    vector3ToLatLng(vector) {
 
-        if (!this.hitboxes) return;
+        const radius = vector.length();
     
-    
-        const intersects = Input.raycaster.intersectObjects(
-            this.hitboxes.children
+        const lat = 90 - THREE.MathUtils.radToDeg(
+            Math.acos(vector.y / radius)
         );
     
+        let lng = THREE.MathUtils.radToDeg(
+            Math.atan2(
+                vector.z,
+                -vector.x
+            )
+        ) - 180;
     
-        if (intersects.length > 0) {
+        // Corrige para ficar entre -180 e 180
+        if (lng < -180) lng += 360;
+        if (lng > 180) lng -= 360;
     
-            const object = intersects[0].object;
+        return {
+            lat,
+            lng
+        };
     
+    },
+
+    calculateBounds(countryObject) {
+
+        let minLat = 90;
+        let maxLat = -90;
     
-            const country = this.countries.find(
-                c => c.hitbox === object
-            );
+        let minLng = 180;
+        let maxLng = -180;
     
+        const processRing = (ring) => {
     
-            this.handleHover(country);
+            ring.forEach(coord => {
     
+                const lng = coord[0];
+                const lat = coord[1];
     
-        } else {
+                if (lat < minLat) minLat = lat;
+                if (lat > maxLat) maxLat = lat;
     
-            this.handleHover(null);
+                if (lng < minLng) minLng = lng;
+                if (lng > maxLng) maxLng = lng;
+    
+            });
+    
+        };
+    
+        const geometry = countryObject.geometry;
+    
+        if (geometry.type === "Polygon") {
+    
+            geometry.coordinates.forEach(processRing);
+    
+        } else if (geometry.type === "MultiPolygon") {
+    
+            geometry.coordinates.forEach(polygon => {
+    
+                polygon.forEach(processRing);
+    
+            });
     
         }
+    
+        countryObject.bounds = {
+    
+            minLat,
+            maxLat,
+            minLng,
+            maxLng
+    
+        };
+    
+    },
 
-    }
+    update() {
+
+        const intersects =
+            Input.raycaster.intersectObject(Earth.mesh);
+    
+        if (intersects.length === 0) return;
+    
+        const point = intersects[0].point;
+    
+        const position =
+            this.vector3ToLatLng(point);
+    
+        console.clear();
+    
+        console.log(
+            "Latitude:",
+            position.lat.toFixed(2)
+        );
+    
+        console.log(
+            "Longitude:",
+            position.lng.toFixed(2)
+        );
+    
+    },
 
 };
