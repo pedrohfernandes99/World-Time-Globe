@@ -417,6 +417,23 @@ const Countries = {
     
     },
 
+    findCandidateCountries(lat, lng) {
+
+        return this.countries.filter(country => {
+    
+            const b = country.bounds;
+    
+            return (
+                lat >= b.minLat &&
+                lat <= b.maxLat &&
+                lng >= b.minLng &&
+                lng <= b.maxLng
+            );
+    
+        });
+    
+    },
+
     update() {
 
         const intersects =
@@ -428,6 +445,12 @@ const Countries = {
     
         const position =
             this.vector3ToLatLng(point);
+    
+        const candidates =
+            this.findCandidateCountries(
+                position.lat,
+                position.lng
+            );
     
         console.clear();
     
@@ -441,6 +464,13 @@ const Countries = {
             position.lng.toFixed(2)
         );
     
-    },
+        console.log(
+            "Candidatos:",
+            candidates.length
+        );
+    
+        console.log(candidates);
+    
+    }
 
 };
