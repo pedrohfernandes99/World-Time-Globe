@@ -14,19 +14,6 @@ const Countries = {
 
     radius: 1.008,
 
-    latLngToVector3(lat, lng, radius) {
-
-        const phi = (90 - lat) * (Math.PI / 180);
-        const theta = (lng + 180) * (Math.PI / 180);
-
-        return new THREE.Vector3(
-            -(radius * Math.sin(phi) * Math.cos(theta)),
-            radius * Math.cos(phi),
-            radius * Math.sin(phi) * Math.sin(theta)
-        );
-
-    },
-
     drawLine(coordinates) {
 
         const points = [];
@@ -37,7 +24,7 @@ const Countries = {
             const lat = coord[1];
 
             points.push(
-                this.latLngToVector3(lat, lng, this.radius)
+                GeoUtils.latLngToVector3(lat, lng, this.radius)
             );
 
         });
@@ -203,7 +190,7 @@ const Countries = {
             const lat = coord[1];
     
     
-            const point = this.latLngToVector3(
+            const point = GeoUtils.latLngToVector3(
                 lat,
                 lng,
                 this.radius
@@ -339,32 +326,6 @@ const Countries = {
     
     },
 
-    vector3ToLatLng(vector) {
-
-        const radius = vector.length();
-    
-        const lat = 90 - THREE.MathUtils.radToDeg(
-            Math.acos(vector.y / radius)
-        );
-    
-        let lng = THREE.MathUtils.radToDeg(
-            Math.atan2(
-                vector.z,
-                -vector.x
-            )
-        ) - 180;
-    
-        // Corrige para ficar entre -180 e 180
-        if (lng < -180) lng += 360;
-        if (lng > 180) lng -= 360;
-    
-        return {
-            lat,
-            lng
-        };
-    
-    },
-
     calculateBounds(countryObject) {
 
         let minLat = 90;
@@ -416,61 +377,28 @@ const Countries = {
         };
     
     },
-
-    findCandidateCountries(lat, lng) {
-
-        return this.countries.filter(country => {
-    
-            const b = country.bounds;
-    
-            return (
-                lat >= b.minLat &&
-                lat <= b.maxLat &&
-                lng >= b.minLng &&
-                lng <= b.maxLng
-            );
-    
-        });
-    
-    },
-
+        
     update() {
 
-        const intersects =
-            Input.raycaster.intersectObject(Earth.mesh);
+        const intersects = Input.raycaster.intersectObject(Earth.mesh);
     
-        if (intersects.length === 0) return;
+        if (intersects.length === 0) {
+            return;
+        }
     
         const point = intersects[0].point;
     
-        const position =
-            this.vector3ToLatLng(point);
+        const position = GeoUtils.vector3ToLatLng(point);
     
-        const candidates =
-            this.findCandidateCountries(
-                position.lat,
-                position.lng
-            );
-    
-        console.clear();
-    
-        console.log(
-            "Latitude:",
-            position.lat.toFixed(2)
+        const candidates = CountryLocator.findCandidateCountries(
+            position.lat,
+            position.lng
         );
     
-        console.log(
-            "Longitude:",
-            position.lng.toFixed(2)
-        );
-    
-        console.log(
-            "Candidatos:",
-            candidates.length
-        );
-    
-        console.log(candidates);
+        if (candidates.length === 0) {
+            return;
+        }
     
     }
-
-};
+    
+    };
