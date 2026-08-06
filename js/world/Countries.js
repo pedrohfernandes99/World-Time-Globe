@@ -73,6 +73,8 @@ const Countries = {
                 properties: country.properties,
             
                 geometry: geometry,
+
+                geoJSON: country,
             
                 lines: [],
             
@@ -380,24 +382,37 @@ const Countries = {
         
     update() {
 
-        const intersects = Input.raycaster.intersectObject(Earth.mesh);
+
+        const intersects =
+            Input.raycaster.intersectObject(Earth.mesh);
+    
     
         if (intersects.length === 0) {
+    
+            this.handleHover(null);
+    
             return;
+    
         }
     
-        const point = intersects[0].point;
     
+        const point = intersects[0].point.clone();
+
+        Earth.mesh.worldToLocal(point);
+
         const position = GeoUtils.vector3ToLatLng(point);
     
-        const candidates = CountryLocator.findCandidateCountries(
-            position.lat,
-            position.lng
-        );
     
-        if (candidates.length === 0) {
-            return;
-        }
+    
+        const country =
+            CountryLocator.findCountry(
+                position.lat,
+                position.lng
+            );
+    
+    
+        this.handleHover(country);
+    
     
     }
     
