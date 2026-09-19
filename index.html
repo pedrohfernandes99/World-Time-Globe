@@ -15,6 +15,48 @@
 
 <body>
 
+    <div id="country-search" class="search-panel">
+    <div class="search-label">LOCALIZAR PAÍS</div>
+    <div class="search-box">
+        <span class="search-icon">⌕</span>
+        <input id="country-search-input" type="search" autocomplete="off" placeholder="País, ISO-2 ou ISO-3...">
+        <button id="country-search-clear" type="button" aria-label="Limpar busca">×</button>
+    </div>
+    <div id="country-search-results" class="search-results"></div>
+</div>
+
+<button id="favorites-toggle" class="favorites-toggle" type="button" title="Abrir favoritos">
+    <span>★</span> FAVORITOS <b id="favorites-count">0</b>
+</button>
+
+<div id="favorites-panel" class="favorites-panel">
+    <div class="favorites-header">
+        <div>
+            <div class="favorites-label">MÚLTIPLOS RELÓGIOS</div>
+            <h2>Favoritos</h2>
+        </div>
+        <button id="favorites-close" class="favorites-close" type="button" aria-label="Fechar favoritos">×</button>
+    </div>
+    <div id="favorites-cards" class="favorites-cards"></div>
+    <div class="favorites-footer">
+        <span>Máximo de 12 países</span>
+        <button id="favorites-clear" type="button">Limpar tudo</button>
+    </div>
+</div>
+<div id="favorites-message" class="favorites-message"></div>
+
+<div id="country-info">
+
+        <h2 id="country-name">
+            País
+        </h2>
+    
+        <p id="country-details">
+            Passe o mouse sobre um país
+        </p>
+    
+    </div>
+
 
 <div id="title">
 
@@ -25,8 +67,25 @@
 
 <script src="libs/three.min.js"></script>
 <script src="libs/OrbitControls.js"></script>
+<script src="libs/turf.min.js"></script>
 
 <script src="js/core/Engine.js"></script>
+<script src="js/core/Input.js"></script>
+
+<script src="js/data/CountryDatabase.js"></script>
+
+<script src="js/core/TimeService.js"></script>
+<script src="js/core/CountrySearch.js"></script>
+<script src="js/core/Favorites.js"></script>
+<script src="js/core/CountryInfo.js"></script>
+
+<script src="js/geo/GeoUtils.js"></script>
+
+<script src="js/geo/CountryLocator.js"></script>
+
+<script src="js/core/Config.js"></script>
+
+<script src="js/api/CountryLoader.js"></script>
 
 <script src="js/world/Earth.js"></script>
 <script src="js/world/Atmosphere.js"></script>

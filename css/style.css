@@ -30,8 +30,409 @@
     
     font-size:28px;
     
-    z-index:10;
+    pointer-events:none;
     
     letter-spacing:2px;
+
+    z-index:10;
     
     }
+
+    #country-info {
+
+        position: fixed;
+    
+        top: 80px;
+    
+        right: 30px;
+    
+        width: 260px;
+    
+        padding: 20px;
+    
+        background: rgba(0,0,0,0.7);
+    
+        color: white;
+    
+        border: 1px solid #00ff99;
+    
+        border-radius: 10px;
+    
+        font-family: Arial, sans-serif;
+    
+        backdrop-filter: blur(10px);
+
+        z-index:10;
+
+        pointer-events: none;
+    
+    }
+    
+    
+    #country-info h2 {
+    
+        margin-top: 0;
+    
+        color: #00ff99;
+    
+    }
+#country-info {
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: 0 0 18px rgba(0, 255, 153, 0.08);
+}
+
+#country-info h2 {
+    font-size: 22px;
+    margin-bottom: 8px;
+}
+
+#country-info p {
+    line-height: 1.45;
+}
+
+
+/* Sprint 27 - relógio mundial */
+#country-info {
+    width: 340px;
+    max-height: calc(100vh - 110px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+.country-status {
+    color: #00ff99;
+    font-size: 11px;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+#country-time {
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(0,255,153,0.35);
+}
+
+.time-title {
+    color: #00ff99;
+    font-weight: bold;
+    font-size: 13px;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+.utc-reference {
+    color: #8fa7b5;
+    font-size: 11px;
+    margin-bottom: 8px;
+}
+
+.time-row {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.time-place {
+    color: #dcefff;
+    font-size: 12px;
+    margin-bottom: 2px;
+}
+
+.time-clock {
+    color: #ffffff;
+    font-size: 25px;
+    line-height: 1.1;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.time-meta {
+    color: #8fa7b5;
+    font-size: 10px;
+    margin-top: 3px;
+}
+
+.time-more,
+.time-empty {
+    color: #8fa7b5;
+    font-size: 11px;
+    padding-top: 8px;
+}
+
+@media (max-width: 700px) {
+    #country-info {
+        right: 12px;
+        top: 70px;
+        width: min(340px, calc(100vw - 24px));
+        max-height: calc(100vh - 85px);
+    }
+
+    #title {
+        left: 15px;
+        top: 15px;
+        font-size: 20px;
+    }
+}
+
+/* Sprint 28 - acabamento visual do globo */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background: radial-gradient(circle at center, transparent 35%, rgba(0,0,0,0.28) 100%);
+}
+
+#title {
+    text-shadow: 0 0 12px rgba(0, 255, 153, 0.25);
+}
+
+#country-info {
+    box-shadow: 0 0 28px rgba(0, 255, 153, 0.10), inset 0 0 22px rgba(255,255,255,0.025);
+    background: rgba(2, 8, 14, 0.76);
+}
+
+/* Sprint 29 - busca mundial */
+.search-panel {
+    position: fixed;
+    top: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(430px, calc(100vw - 360px));
+    min-width: 280px;
+    z-index: 20;
+    font-family: Arial, sans-serif;
+}
+
+.search-label {
+    color: #8fa7b5;
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    margin: 0 0 6px 4px;
+}
+
+.search-box {
+    height: 42px;
+    display: flex;
+    align-items: center;
+    background: rgba(2, 8, 14, 0.86);
+    border: 1px solid rgba(0, 255, 153, 0.55);
+    border-radius: 10px;
+    box-shadow: 0 0 22px rgba(0, 255, 153, 0.10), inset 0 0 15px rgba(255,255,255,0.025);
+    backdrop-filter: blur(12px);
+}
+
+.search-icon {
+    color: #00ff99;
+    font-size: 24px;
+    line-height: 1;
+    padding: 0 10px 2px 13px;
+}
+
+#country-search-input {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: white;
+    font-size: 13px;
+}
+
+#country-search-input::placeholder {
+    color: #718591;
+}
+
+#country-search-clear {
+    width: 36px;
+    height: 36px;
+    margin-right: 3px;
+    border: 0;
+    background: transparent;
+    color: #718591;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+#country-search-clear:hover {
+    color: white;
+}
+
+.search-results {
+    display: none;
+    margin-top: 6px;
+    max-height: 390px;
+    overflow-y: auto;
+    border: 1px solid rgba(0, 255, 153, 0.32);
+    border-radius: 10px;
+    background: rgba(2, 8, 14, 0.94);
+    box-shadow: 0 16px 35px rgba(0,0,0,0.45);
+    backdrop-filter: blur(14px);
+}
+
+.search-results.visible {
+    display: block;
+}
+
+.search-result {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    background: transparent;
+    color: white;
+    text-align: left;
+    cursor: pointer;
+}
+
+.search-result:last-child {
+    border-bottom: 0;
+}
+
+.search-result:hover,
+.search-result:focus {
+    outline: 0;
+    background: rgba(0,255,153,0.10);
+}
+
+.search-flag {
+    width: 30px;
+    text-align: center;
+    font-size: 21px;
+}
+
+.search-name {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+.search-name strong {
+    color: #e9f8ff;
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.search-name small {
+    color: #8196a2;
+    font-size: 10px;
+    letter-spacing: .6px;
+}
+
+.search-empty {
+    color: #8196a2;
+    padding: 14px;
+    font-size: 12px;
+}
+
+@media (max-width: 900px) {
+    .search-panel {
+        left: 15px;
+        right: 15px;
+        transform: none;
+        width: auto;
+    }
+}
+
+@media (max-width: 700px) {
+    .search-panel {
+        top: 54px;
+    }
+}
+
+/* Sprint 30 - favoritos e múltiplos relógios */
+.favorites-toggle {
+    position: fixed;
+    left: 30px;
+    bottom: 28px;
+    z-index: 25;
+    height: 42px;
+    padding: 0 14px;
+    border: 1px solid rgba(0,255,153,.55);
+    border-radius: 10px;
+    background: rgba(2,8,14,.84);
+    color: #dfffee;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: 0 0 22px rgba(0,255,153,.10);
+    backdrop-filter: blur(12px);
+}
+.favorites-toggle span { color:#00ff99; font-size:16px; margin-right:6px; }
+.favorites-toggle b {
+    display:inline-flex;
+    min-width:19px;
+    height:19px;
+    align-items:center;
+    justify-content:center;
+    margin-left:6px;
+    border-radius:50%;
+    background:rgba(0,255,153,.12);
+    color:#00ff99;
+}
+.favorites-toggle:hover { background:rgba(0,255,153,.10); }
+
+.favorites-panel {
+    position: fixed;
+    left: 30px;
+    bottom: 82px;
+    width: min(520px, calc(100vw - 60px));
+    max-height: min(620px, calc(100vh - 125px));
+    z-index: 24;
+    display: none;
+    flex-direction: column;
+    padding: 16px;
+    border: 1px solid rgba(0,255,153,.42);
+    border-radius: 14px;
+    background: rgba(2,8,14,.91);
+    color: white;
+    box-shadow: 0 20px 55px rgba(0,0,0,.55), 0 0 30px rgba(0,255,153,.08);
+    backdrop-filter: blur(16px);
+}
+.favorites-panel.visible { display:flex; }
+.favorites-header { display:flex; align-items:flex-start; justify-content:space-between; padding-bottom:12px; border-bottom:1px solid rgba(255,255,255,.08); }
+.favorites-label { color:#8fa7b5; font-size:10px; letter-spacing:1.5px; font-weight:bold; }
+.favorites-header h2 { margin-top:3px; color:#00ff99; font-size:20px; }
+.favorites-close { border:0; background:transparent; color:#8fa7b5; font-size:25px; cursor:pointer; }
+.favorites-close:hover { color:white; }
+.favorites-cards { overflow:auto; padding:12px 2px 4px; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; }
+.favorite-card { position:relative; min-width:0; padding:11px 34px 10px 10px; border:1px solid rgba(255,255,255,.08); border-radius:10px; background:rgba(255,255,255,.025); }
+.favorite-card:hover { border-color:rgba(0,255,153,.28); background:rgba(0,255,153,.045); }
+.favorite-main { width:100%; display:flex; align-items:center; gap:8px; border:0; background:transparent; color:white; text-align:left; padding:0; cursor:pointer; }
+.favorite-flag { width:28px; flex:0 0 28px; font-size:21px; text-align:center; }
+.favorite-main-text { min-width:0; display:flex; flex-direction:column; gap:2px; }
+.favorite-main-text strong { font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.favorite-main-text small { color:#8196a2; font-size:9px; letter-spacing:.5px; }
+.favorite-clock { margin-top:9px; color:white; font-size:24px; line-height:1; font-weight:bold; letter-spacing:1px; }
+.favorite-date { margin-top:5px; color:#b4c7d0; font-size:10px; }
+.favorite-meta { margin-top:3px; color:#00c985; font-size:10px; }
+.favorite-remove { position:absolute; top:7px; right:7px; width:22px; height:22px; border:0; border-radius:5px; background:transparent; color:#718591; font-size:18px; cursor:pointer; }
+.favorite-remove:hover { color:#fff; background:rgba(255,255,255,.08); }
+.favorites-empty { grid-column:1/-1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px; padding:28px 15px; text-align:center; color:#8fa7b5; }
+.favorites-empty-icon { color:#00ff99; font-size:32px; }
+.favorites-empty strong { color:#dcefff; font-size:13px; }
+.favorites-empty span { font-size:10px; }
+.favorites-footer { display:flex; justify-content:space-between; align-items:center; padding-top:10px; border-top:1px solid rgba(255,255,255,.08); color:#718591; font-size:10px; }
+#favorites-clear { border:0; background:transparent; color:#8fa7b5; cursor:pointer; font-size:10px; }
+#favorites-clear:hover { color:white; }
+.favorites-message { position:fixed; left:50%; bottom:28px; transform:translateX(-50%) translateY(10px); z-index:40; opacity:0; pointer-events:none; padding:10px 14px; border:1px solid rgba(0,255,153,.35); border-radius:9px; background:rgba(2,8,14,.92); color:#dfffee; font-size:11px; transition:.2s ease; }
+.favorites-message.visible { opacity:1; transform:translateX(-50%) translateY(0); }
+.country-favorite-button { margin:0 0 12px; width:100%; padding:8px 9px; border:1px solid rgba(0,255,153,.30); border-radius:7px; background:rgba(0,255,153,.06); color:#bfeedd; font-size:10px; font-weight:bold; letter-spacing:.6px; cursor:pointer; }
+.country-favorite-button:hover, .country-favorite-button.is-favorite { border-color:rgba(0,255,153,.62); color:#00ff99; background:rgba(0,255,153,.11); }
+
+@media (max-width:700px) {
+    .favorites-toggle { left:15px; bottom:15px; }
+    .favorites-panel { left:15px; bottom:68px; width:calc(100vw - 30px); max-height:calc(100vh - 90px); }
+    .favorites-cards { grid-template-columns:1fr; }
+    .favorites-message { bottom:15px; }
+}

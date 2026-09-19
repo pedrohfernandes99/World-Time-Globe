@@ -1,8 +1,3 @@
-// ===============================
-// WTG Engine
-// engine.js
-// ===============================
-
 const Engine = {
 
     scene: null,
@@ -13,7 +8,7 @@ const Engine = {
     init() {
 
         this.scene = new THREE.Scene();
-        this.scene.background = new THREE.Color(0x000000);
+        this.scene.background = new THREE.Color(0x010308);
 
         this.camera = new THREE.PerspectiveCamera(
             60,
@@ -25,17 +20,24 @@ const Engine = {
         this.camera.position.set(0, 0, 5);
 
         this.renderer = new THREE.WebGLRenderer({
-            antialias: true
+            antialias: true,
+            powerPreference: "high-performance"
         });
 
-        this.renderer.setSize(
-            window.innerWidth,
-            window.innerHeight
-        );
-
-        this.renderer.setPixelRatio(window.devicePixelRatio);
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+        this.renderer.outputColorSpace = THREE.SRGBColorSpace;
+        this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        this.renderer.toneMappingExposure = 1.05;
 
         document.body.appendChild(this.renderer.domElement);
+
+        this.renderer.domElement.style.position = "fixed";
+        this.renderer.domElement.style.top = "0";
+        this.renderer.domElement.style.left = "0";
+        this.renderer.domElement.style.zIndex = "0";
+        this.renderer.domElement.style.display = "block";
+        this.renderer.domElement.style.touchAction = "none";
 
         this.controls = new THREE.OrbitControls(
             this.camera,
@@ -43,30 +45,18 @@ const Engine = {
         );
 
         this.controls.enableDamping = true;
-
-        // Luz principal
-        const sun = new THREE.DirectionalLight(0xffffff, 2);
-
-        sun.position.set(5, 3, 5);
-
-        this.scene.add(sun);
-
-        // Luz ambiente
-        this.scene.add(
-            new THREE.AmbientLight(0xffffff, 0.4)
-        );
+        this.controls.dampingFactor = 0.055;
+        this.controls.enablePan = false;
+        this.controls.minDistance = 2.1;
+        this.controls.maxDistance = 8;
+        this.controls.rotateSpeed = 0.55;
+        this.controls.zoomSpeed = 0.65;
 
         window.addEventListener("resize", () => {
 
-            this.camera.aspect =
-                window.innerWidth / window.innerHeight;
-
+            this.camera.aspect = window.innerWidth / window.innerHeight;
             this.camera.updateProjectionMatrix();
-
-            this.renderer.setSize(
-                window.innerWidth,
-                window.innerHeight
-            );
+            this.renderer.setSize(window.innerWidth, window.innerHeight);
 
         });
 
@@ -75,11 +65,7 @@ const Engine = {
     render() {
 
         this.controls.update();
-
-        this.renderer.render(
-            this.scene,
-            this.camera
-        );
+        this.renderer.render(this.scene, this.camera);
 
     }
 
